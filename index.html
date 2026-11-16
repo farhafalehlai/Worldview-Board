@@ -32,7 +32,6 @@
       user-select: none;
     }
 
-    /* Kanvas Luas Interaktif */
     #viewport {
       position: fixed;
       inset: 0;
@@ -57,7 +56,6 @@
       will-change: transform;
     }
 
-    /* Animasi Pop-Up Kad */
     @keyframes popInCard {
       0% {
         opacity: 0;
@@ -106,7 +104,6 @@
       pointer-events: none;
     }
 
-    /* Skrolbar Halus Dalam Modal */
     .custom-scroll::-webkit-scrollbar {
       width: 6px;
     }
@@ -118,7 +115,6 @@
       border-radius: 999px;
     }
 
-    /* Konfeti */
     .confetti-piece {
       position: fixed;
       width: 10px;
@@ -143,9 +139,8 @@
 </head>
 <body>
 
-  <!-- BAR ATAS: PENUKAR KELAS & PAUTAN JEMPUTAN -->
+  <!-- BAR ATAS -->
   <header class="fixed top-4 left-4 right-4 z-50 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-    <!-- Kiri: Penukar Bilik / Kelas & Status Live -->
     <div class="flex items-center gap-2 pointer-events-auto">
       <div class="relative">
         <button id="roomDropdownBtn" onclick="toggleRoomMenu()" class="flex items-center gap-2 bg-white/95 backdrop-blur-md hover:bg-white text-slate-800 font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-2xl shadow-md border border-slate-200/80 transition">
@@ -154,7 +149,6 @@
           <span class="text-slate-400 text-xs">▾</span>
         </button>
 
-        <!-- Menu Dropdown Kelas -->
         <div id="roomMenu" class="hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1.5">Pilih Paparan Papan</p>
           <div class="space-y-1">
@@ -190,8 +184,8 @@
 
       <!-- Status Live & Jumlah Kad -->
       <div class="flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-2.5 rounded-2xl shadow-sm border border-slate-200/80 text-xs font-semibold text-slate-600">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>Live</span>
+        <span id="liveDot" class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="liveStatusText">Menyambung...</span>
         <span class="text-slate-300">|</span>
         <span id="cardCounter">0 Pandangan</span>
       </div>
@@ -213,14 +207,13 @@
     </div>
   </header>
 
-  <!-- KANVAS UTAMA (PAN & ZOOM) -->
+  <!-- KANVAS UTAMA -->
   <main id="viewport">
     <div id="canvasWorld">
-      <!-- HAB SOALAN UTAMA DI TENGAH KANVAS -->
       <div id="centerHub" style="left: 2200px; top: 1600px; transform: translate(-50%, -50%);" class="absolute w-[360px] sm:w-[440px] bg-white/95 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 shadow-2xl border-2 border-emerald-200/80 text-center z-20">
         <div class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 font-bold text-xs px-3.5 py-1.5 rounded-full mb-3 border border-emerald-200/60">
           <span>✨</span>
-          <span id="hubSubtitle">Wacana Pandangan Alam Tanpa Nama</span>
+          <span id="hubSubtitle">Himpunan Semua Kelas • Tanpa Nama</span>
         </div>
 
         <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug tracking-tight mb-2.5">
@@ -231,13 +224,11 @@
           Identiti anda 100% rahsia. Setiap kiriman terus muncul secara automatik di papan ini bersama gelaran misteri kejutan!
         </p>
 
-        <!-- Butang Utama Kongsi Pandangan -->
         <button onclick="openSubmitModal()" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 hover:from-emerald-600 hover:to-sky-600 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-emerald-500/25 transform hover:-translate-y-0.5 transition flex items-center justify-center gap-2 mb-5">
           <span>✍️</span>
           <span>Kongsikan Pandangan Anda</span>
         </button>
 
-        <!-- Penapis Sorotan Lensa -->
         <div class="border-t border-slate-100 pt-4">
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Sorot Mengikut Lensa</p>
           <div class="flex flex-wrap justify-center gap-1.5">
@@ -250,14 +241,12 @@
         </div>
       </div>
 
-      <!-- BEKAS KAD-KAD PANDANGAN -->
       <div id="nodesContainer"></div>
     </div>
   </main>
 
   <!-- BAR KAWALAN BAWAH -->
   <div class="fixed bottom-4 left-4 right-4 z-40 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-    <!-- Kawalan Zum -->
     <div class="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-lg border border-slate-200/80 pointer-events-auto">
       <button onclick="zoomCanvas(-0.14)" class="w-9 h-9 rounded-xl hover:bg-slate-100 font-bold text-slate-700 text-lg flex items-center justify-center" title="Zum Keluar">−</button>
       <span id="zoomLabel" class="text-xs font-bold text-slate-600 px-2 min-w-[48px] text-center">68%</span>
@@ -266,7 +255,6 @@
       <button onclick="resetCamera()" class="px-3 h-9 rounded-xl hover:bg-slate-100 text-xs font-bold text-slate-700">🎯 Tengah</button>
     </div>
 
-    <!-- Butang Jelajah & Tulis Pantas -->
     <div class="flex items-center gap-2 pointer-events-auto">
       <button onclick="focusRandomNode()" class="bg-white/95 hover:bg-white text-slate-800 font-bold text-xs px-3.5 py-2.5 rounded-2xl shadow-lg border border-slate-200/80 transition flex items-center gap-1.5">
         <span>🎲</span>
@@ -295,7 +283,6 @@
       </div>
 
       <form id="opinionForm" class="p-5 sm:p-6 space-y-4">
-        <!-- Lensa Pandangan -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-2">1. Pilih Lensa Pandangan Anda:</label>
           <div class="grid grid-cols-2 gap-2">
@@ -326,7 +313,6 @@
           </div>
         </div>
 
-        <!-- Kotak Teks -->
         <div>
           <div class="flex justify-between items-center mb-1.5">
             <label for="opinionInput" class="text-xs font-bold text-slate-700">2. Tulis Refleksi Anda:</label>
@@ -335,7 +321,6 @@
           <textarea id="opinionInput" rows="4" maxlength="320" required placeholder="Contoh: Orang pintar tahu banyak jawapan, tapi orang bijaksana tahu bila perlu diam, mendengar, dan bertindak dengan adab..." class="w-full rounded-2xl border-2 border-slate-200 p-3.5 text-sm text-slate-800 focus:outline-none focus:border-emerald-500 transition resize-none"></textarea>
         </div>
 
-        <!-- Info Gelaran Kejutan -->
         <div class="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 flex items-center justify-between gap-2">
           <div class="flex items-center gap-2 text-xs text-amber-900">
             <span class="text-lg">🎁</span>
@@ -353,7 +338,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: THREAD BALASAN (💬 REPLY POP-UP) -->
+  <!-- MODAL 2: THREAD BALASAN -->
   <div id="threadModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[88vh]">
       <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
@@ -364,11 +349,8 @@
         <button onclick="closeThreadModal()" class="w-8 h-8 rounded-full hover:bg-slate-200/70 text-slate-500 flex items-center justify-center font-bold">✕</button>
       </div>
 
-      <div id="threadBody" class="p-5 overflow-y-auto custom-scroll space-y-4 flex-1">
-        <!-- Kandungan utama & senarai balasan dijana oleh JS -->
-      </div>
+      <div id="threadBody" class="p-5 overflow-y-auto custom-scroll space-y-4 flex-1"></div>
 
-      <!-- Borang Tambah Balasan -->
       <form id="replyForm" class="p-4 border-t border-slate-100 bg-slate-50 space-y-2.5">
         <div class="flex flex-wrap gap-1.5">
           <label class="cursor-pointer">
@@ -404,13 +386,11 @@
       </div>
 
       <div class="p-5 overflow-y-auto custom-scroll space-y-5">
-        <!-- Senarai Pautan Kelas -->
         <div>
           <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">1. Salin Pautan Mengikut Kelas</p>
           <div id="classLinksContainer" class="space-y-2"></div>
         </div>
 
-        <!-- Teks Jemputan Sedia Disalin -->
         <div>
           <div class="flex items-center justify-between mb-2">
             <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400">2. Ayat Jemputan WhatsApp / Telegram</p>
@@ -429,9 +409,6 @@
   </div>
 
   <script>
-    // =========================================================================
-    // KONFIGURASI UTAMA & FIREBASE REALTIME DATABASE
-    // =========================================================================
     const FIREBASE_DB_URL = "https://worldview-board-default-rtdb.asia-southeast1.firebasedatabase.app";
 
     const WORLD_W = 4400;
@@ -540,9 +517,6 @@
       }
     ];
 
-    // =========================================================================
-    // STATE APLIKASI
-    // =========================================================================
     let currentRoomSlug = "umum";
     let currentRoomName = "UMUM (SEMUA)";
     let entries = [];
@@ -560,9 +534,19 @@
       scale: 0.68
     };
 
-    // =========================================================================
-    // PENGURUSAN BILIK / KELAS (?bilik=...)
-    // =========================================================================
+    function setConnectionStatus(isOnline, labelText) {
+      const dot = document.getElementById("liveDot");
+      const txt = document.getElementById("liveStatusText");
+      if (!dot || !txt) return;
+      if (isOnline) {
+        dot.className = "inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+        txt.textContent = labelText || "Live";
+      } else {
+        dot.className = "inline-block w-2 h-2 rounded-full bg-rose-500";
+        txt.textContent = labelText || "Offline";
+      }
+    }
+
     function formatRoomDisplay(slug) {
       return slug === "umum" ? "UMUM (SEMUA)" : slug.toUpperCase();
     }
@@ -628,19 +612,16 @@
       document.getElementById("roomMenu").classList.toggle("hidden");
     }
 
-    // =========================================================================
-    // STORAN TEMPATAN & PENYELARASAN LANGSUNG FIREBASE
-    // =========================================================================
     function getStorageKey() {
-      return `pandangan_alam_entries_v2_${currentRoomSlug}`;
+      return `pandangan_alam_entries_v3_${currentRoomSlug}`;
     }
 
     function getLikedKey() {
-      return `pandangan_alam_liked_v2`;
+      return `pandangan_alam_liked_v3`;
     }
 
     function getHeartedKey() {
-      return `pandangan_alam_hearted_v2`;
+      return `pandangan_alam_hearted_v3`;
     }
 
     function loadLocalEntries() {
@@ -668,13 +649,20 @@
       const targetRoom = entry.roomSlug || currentRoomSlug;
       try {
         const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${targetRoom}/${entry.id}.json`;
-        await fetch(endpoint, {
+        const res = await fetch(endpoint, {
           method: "PUT",
+          cache: "no-store",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(entry)
         });
+        if (!res.ok) {
+          setConnectionStatus(false, "Ralat Simpan");
+          showToast("Ralat simpan ke pangkalan data. Semak Rules Firebase.", "⚠️");
+        } else {
+          setConnectionStatus(true, "Live");
+        }
       } catch (err) {
-        console.warn("Ralat muat naik langsung:", err);
+        setConnectionStatus(false, "Tiada Talian");
       }
     }
 
@@ -685,6 +673,7 @@
         const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${targetRoom}/${entry.id}.json`;
         await fetch(endpoint, {
           method: "PATCH",
+          cache: "no-store",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             likes: entry.likes || 0,
@@ -692,22 +681,24 @@
             replies: entry.replies || []
           })
         });
-      } catch (err) {
-        console.warn("Ralat kemas kini reaksi/balasan:", err);
-      }
+      } catch (err) {}
     }
 
     async function syncFromFirebase() {
       if (!FIREBASE_DB_URL) return;
       try {
         const baseDb = FIREBASE_DB_URL.replace(/\/$/, "");
-        // Jika berada di bilik UMUM, tarik keseluruhan cabang /opinions.json dari semua kelas!
         const endpoint = currentRoomSlug === "umum"
           ? `${baseDb}/opinions.json`
           : `${baseDb}/opinions/${currentRoomSlug}.json`;
 
-        const res = await fetch(endpoint);
-        if (!res.ok) return;
+        const res = await fetch(endpoint, { cache: "no-store" });
+        if (!res.ok) {
+          setConnectionStatus(false, "Ralat DB");
+          return;
+        }
+
+        setConnectionStatus(true, "Live");
         const data = await res.json();
         if (!data || typeof data !== "object") return;
 
@@ -739,7 +730,6 @@
 
         if (remoteList.length === 0) return;
 
-        // Susun dari paling baharu ke lama
         remoteList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
         const existingRealIds = new Set(entries.filter(e => !e.isSample).map(e => e.id));
@@ -771,7 +761,7 @@
           }
         }
       } catch (err) {
-        // Abaikan ralat rangkaian sementara
+        setConnectionStatus(false, "Offline");
       }
     }
 
@@ -781,9 +771,6 @@
       pollInterval = setInterval(syncFromFirebase, 3000);
     }
 
-    // =========================================================================
-    // SUSUN ATUR ORBIT BULATAN LUAS & KAMERA (PAN / ZOOM)
-    // =========================================================================
     function getNodePosition(index) {
       const presets = [
         { x: 1620, y: 1260, rot: -2.2 },
@@ -905,9 +892,6 @@
       }
     }
 
-    // =========================================================================
-    // PAPARAN KAD DI ATAS KANVAS
-    // =========================================================================
     function escapeHtml(str) {
       return String(str)
         .replace(/&/g, "&amp;")
@@ -940,7 +924,6 @@
         const isHearted = heartedIds.includes(item.id);
         const itemClassCode = (item.roomSlug || currentRoomSlug).toUpperCase();
 
-        // Tunjukkan lencana kelas apabila berada di paparan gabungan UMUM
         const classBadgeHtml = currentRoomSlug === "umum"
           ? `<span class="inline-flex items-center text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-900/10 text-slate-700">📍 ${escapeHtml(itemClassCode)}</span>`
           : "";
@@ -1007,9 +990,6 @@
       renderCanvas();
     }
 
-    // =========================================================================
-    // HANTAR PANDANGAN & BALASAN (THREAD)
-    // =========================================================================
     function openSubmitModal() {
       stopAutoTour();
       document.getElementById("submitModal").classList.remove("hidden");
@@ -1128,9 +1108,6 @@
       renderCanvas();
     }
 
-    // =========================================================================
-    // MODAL BALASAN (THREAD)
-    // =========================================================================
     function openThreadModal(id) {
       stopAutoTour();
       activeThreadId = id;
@@ -1226,9 +1203,6 @@
       await updateEntryInFirebase(entries[idx]);
     });
 
-    // =========================================================================
-    // PAUTAN KELAS, JEMPUTAN & EKSPORT TEKS
-    // =========================================================================
     function getBasePageUrl() {
       const url = new URL(window.location.href);
       url.search = "";
@@ -1325,9 +1299,6 @@ Terima kasih atas perkongsian idea! 🌿`;
       showToast(`Fail teks ${currentRoomName} dimuat turun!`, "📥");
     }
 
-    // =========================================================================
-    // EFEK BUNYI POP, KONFETI & TOAST
-    // =========================================================================
     function toggleSound() {
       soundEnabled = !soundEnabled;
       document.getElementById("soundToggleBtn").textContent = soundEnabled ? "🔔" : "🔕";
@@ -1387,9 +1358,6 @@ Terima kasih atas perkongsian idea! 🌿`;
       }, 3200);
     }
 
-    // =========================================================================
-    // KAWALAN SERET (PAN) & SKROL RODA TETIKUS (ZOOM)
-    // =========================================================================
     const viewport = document.getElementById("viewport");
     let isDragging = false;
     let startX = 0;
@@ -1429,16 +1397,12 @@ Terima kasih atas perkongsian idea! 🌿`;
       applyCamera(false);
     }, { passive: false });
 
-    // Tutup dropdown kelas jika klik di luar
     document.addEventListener("click", (e) => {
       if (!e.target.closest("#roomDropdownBtn") && !e.target.closest("#roomMenu")) {
         document.getElementById("roomMenu").classList.add("hidden");
       }
     });
 
-    // =========================================================================
-    // MULA APLIKASI
-    // =========================================================================
     window.addEventListener("DOMContentLoaded", () => {
       initRoomFromUrl();
       loadLocalEntries();
