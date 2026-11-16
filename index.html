@@ -84,7 +84,7 @@
 
     .opinion-node {
       position: absolute;
-      width: 320px;
+      width: 325px;
       transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
       transition: opacity 0.35s ease, filter 0.35s ease, box-shadow 0.25s ease;
       cursor: pointer;
@@ -150,14 +150,18 @@
       <div class="relative">
         <button id="roomDropdownBtn" onclick="toggleRoomMenu()" class="flex items-center gap-2 bg-white/95 backdrop-blur-md hover:bg-white text-slate-800 font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-2xl shadow-md border border-slate-200/80 transition">
           <span>📍 Kelas:</span>
-          <span id="currentRoomLabel" class="text-emerald-600">UMUM</span>
+          <span id="currentRoomLabel" class="text-emerald-600">UMUM (SEMUA)</span>
           <span class="text-slate-400 text-xs">▾</span>
         </button>
 
         <!-- Menu Dropdown Kelas -->
-        <div id="roomMenu" class="hidden absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1.5">Pilih Papan Kelas</p>
+        <div id="roomMenu" class="hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1.5">Pilih Paparan Papan</p>
           <div class="space-y-1">
+            <button onclick="switchRoom('umum')" class="w-full text-left px-3 py-2 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/80 flex items-center justify-between">
+              <span>🌐 UMUM (Himpunan Semua)</span>
+              <span class="text-[10px] font-extrabold bg-emerald-600 text-white px-2 py-0.5 rounded-full">Master</span>
+            </button>
             <button onclick="switchRoom('ba2621c')" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center justify-between">
               <span>🎓 BA2621C</span>
               <span class="text-[11px] text-slate-400">Buka</span>
@@ -174,14 +178,10 @@
               <span>🌿 IC2101A</span>
               <span class="text-[11px] text-slate-400">Buka</span>
             </button>
-            <button onclick="switchRoom('umum')" class="w-full text-left px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-100 flex items-center justify-between">
-              <span>🌐 Umum (Terbuka)</span>
-              <span class="text-[11px] text-slate-400">Buka</span>
-            </button>
           </div>
           <div class="border-t border-slate-100 mt-2 pt-2 px-1">
             <div class="flex gap-1.5">
-              <input id="customRoomInput" type="text" placeholder="Nama bilik lain..." class="w-full text-xs px-2.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500" />
+              <input id="customRoomInput" type="text" placeholder="Kod bilik lain..." class="w-full text-xs px-2.5 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500" />
               <button onclick="enterCustomRoom()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-3 py-2 rounded-xl">Masuk</button>
             </div>
           </div>
@@ -220,7 +220,7 @@
       <div id="centerHub" style="left: 2200px; top: 1600px; transform: translate(-50%, -50%);" class="absolute w-[360px] sm:w-[440px] bg-white/95 backdrop-blur-xl rounded-[32px] p-6 sm:p-8 shadow-2xl border-2 border-emerald-200/80 text-center z-20">
         <div class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 font-bold text-xs px-3.5 py-1.5 rounded-full mb-3 border border-emerald-200/60">
           <span>✨</span>
-          <span>Wacana Pandangan Alam Tanpa Nama</span>
+          <span id="hubSubtitle">Wacana Pandangan Alam Tanpa Nama</span>
         </div>
 
         <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug tracking-tight mb-2.5">
@@ -260,7 +260,7 @@
     <!-- Kawalan Zum -->
     <div class="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-lg border border-slate-200/80 pointer-events-auto">
       <button onclick="zoomCanvas(-0.14)" class="w-9 h-9 rounded-xl hover:bg-slate-100 font-bold text-slate-700 text-lg flex items-center justify-center" title="Zum Keluar">−</button>
-      <span id="zoomLabel" class="text-xs font-bold text-slate-600 px-2 min-w-[48px] text-center">65%</span>
+      <span id="zoomLabel" class="text-xs font-bold text-slate-600 px-2 min-w-[48px] text-center">68%</span>
       <button onclick="zoomCanvas(0.14)" class="w-9 h-9 rounded-xl hover:bg-slate-100 font-bold text-slate-700 text-lg flex items-center justify-center" title="Zum Masuk">+</button>
       <div class="w-px h-5 bg-slate-200 mx-0.5"></div>
       <button onclick="resetCamera()" class="px-3 h-9 rounded-xl hover:bg-slate-100 text-xs font-bold text-slate-700">🎯 Tengah</button>
@@ -398,13 +398,13 @@
       <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
         <div>
           <h3 class="font-extrabold text-base sm:text-lg">🔗 Pautan Kelas & Mesej Jemputan</h3>
-          <p class="text-xs text-slate-300 mt-0.5">Setiap kelas mempunyai papan langsung yang terasing secara automatik.</p>
+          <p class="text-xs text-slate-300 mt-0.5">Papan UMUM menghimpunkan jawapan dari semua kelas secara langsung.</p>
         </div>
         <button onclick="closeInviteModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center font-bold">✕</button>
       </div>
 
       <div class="p-5 overflow-y-auto custom-scroll space-y-5">
-        <!-- Senarai Pautan 4 Kelas -->
+        <!-- Senarai Pautan Kelas -->
         <div>
           <p class="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">1. Salin Pautan Mengikut Kelas</p>
           <div id="classLinksContainer" class="space-y-2"></div>
@@ -484,6 +484,7 @@
     const SAMPLE_ENTRIES = [
       {
         id: "sample-1",
+        roomSlug: "ba2621c",
         lens: "Hikmah & Adab",
         persona: "🦉 Pencari Hikmah",
         text: "Orang pintar mampu menang dalam setiap perdebatan, tetapi orang bijaksana tahu menjaga hati dan maruah orang lain walaupun dirinya berada di pihak yang benar.",
@@ -503,6 +504,7 @@
       },
       {
         id: "sample-2",
+        roomSlug: "cs2401b",
         lens: "Akal & Keputusan",
         persona: "🧭 Pengembara Akal",
         text: "Kepintaran diukur melalui jawapan yang pantas di atas kertas, manakala kebijaksanaan diuji ketika membuat keputusan sukar di saat tiada siapa melihat.",
@@ -514,6 +516,7 @@
       },
       {
         id: "sample-3",
+        roomSlug: "cs2401a",
         lens: "Empati & Jiwa",
         persona: "☕ Pengopi Falsafah",
         text: "Bijaksana yang sebenar ialah apabila kita sedar betapa banyaknya perkara yang kita belum tahu, lalu tetap merendah diri untuk mendengar pandangan orang lain.",
@@ -525,6 +528,7 @@
       },
       {
         id: "sample-4",
+        roomSlug: "ic2101a",
         lens: "Realiti Hidup",
         persona: "☀️ Peneroka Minda",
         text: "Orang pintar tahu cara menyelesaikan masalah rumit, tetapi orang bijaksana tahu bagaimana mengelakkan masalah itu daripada berlaku sejak awal.",
@@ -540,7 +544,7 @@
     // STATE APLIKASI
     // =========================================================================
     let currentRoomSlug = "umum";
-    let currentRoomName = "UMUM";
+    let currentRoomName = "UMUM (SEMUA)";
     let entries = [];
     let activeLensFilter = "ALL";
     let activeThreadId = null;
@@ -559,35 +563,57 @@
     // =========================================================================
     // PENGURUSAN BILIK / KELAS (?bilik=...)
     // =========================================================================
+    function formatRoomDisplay(slug) {
+      return slug === "umum" ? "UMUM (SEMUA)" : slug.toUpperCase();
+    }
+
+    function updateRoomHeaderUI() {
+      document.getElementById("currentRoomLabel").textContent = currentRoomName;
+      const sub = document.getElementById("hubSubtitle");
+      if (sub) {
+        sub.textContent = currentRoomSlug === "umum"
+          ? "Himpunan Semua Kelas • Tanpa Nama"
+          : `Papan Kelas ${currentRoomName} • Tanpa Nama`;
+      }
+    }
+
     function initRoomFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const rawRoom = params.get("bilik");
       if (rawRoom && rawRoom.trim() !== "") {
         currentRoomSlug = rawRoom.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-");
-        currentRoomName = rawRoom.trim().toUpperCase();
       } else {
         currentRoomSlug = "umum";
-        currentRoomName = "UMUM";
       }
-      document.getElementById("currentRoomLabel").textContent = currentRoomName;
+      currentRoomName = formatRoomDisplay(currentRoomSlug);
+      updateRoomHeaderUI();
     }
 
     function switchRoom(slug) {
       const cleanSlug = slug.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-");
       const url = new URL(window.location.href);
-      url.searchParams.set("bilik", cleanSlug);
+      if (cleanSlug === "umum") {
+        url.searchParams.delete("bilik");
+      } else {
+        url.searchParams.set("bilik", cleanSlug);
+      }
       window.history.pushState({}, "", url);
 
       currentRoomSlug = cleanSlug;
-      currentRoomName = cleanSlug.toUpperCase();
-      document.getElementById("currentRoomLabel").textContent = currentRoomName;
+      currentRoomName = formatRoomDisplay(cleanSlug);
+      updateRoomHeaderUI();
       document.getElementById("roomMenu").classList.add("hidden");
 
       entries = [];
       loadLocalEntries();
       renderCanvas();
       syncFromFirebase();
-      showToast(`Bertukar ke papan kelas ${currentRoomName}`, "📍");
+      showToast(
+        cleanSlug === "umum"
+          ? "Memaparkan himpunan jawapan semua kelas"
+          : `Bertukar ke papan kelas ${currentRoomName}`,
+        "📍"
+      );
     }
 
     function enterCustomRoom() {
@@ -606,15 +632,15 @@
     // STORAN TEMPATAN & PENYELARASAN LANGSUNG FIREBASE
     // =========================================================================
     function getStorageKey() {
-      return `pandangan_alam_entries_${currentRoomSlug}`;
+      return `pandangan_alam_entries_v2_${currentRoomSlug}`;
     }
 
     function getLikedKey() {
-      return `pandangan_alam_liked_${currentRoomSlug}`;
+      return `pandangan_alam_liked_v2`;
     }
 
     function getHeartedKey() {
-      return `pandangan_alam_hearted_${currentRoomSlug}`;
+      return `pandangan_alam_hearted_v2`;
     }
 
     function loadLocalEntries() {
@@ -639,8 +665,9 @@
 
     async function pushEntryToFirebase(entry) {
       if (!FIREBASE_DB_URL) return;
+      const targetRoom = entry.roomSlug || currentRoomSlug;
       try {
-        const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${currentRoomSlug}/${entry.id}.json`;
+        const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${targetRoom}/${entry.id}.json`;
         await fetch(endpoint, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -653,8 +680,9 @@
 
     async function updateEntryInFirebase(entry) {
       if (!FIREBASE_DB_URL || entry.isSample) return;
+      const targetRoom = entry.roomSlug || currentRoomSlug;
       try {
-        const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${currentRoomSlug}/${entry.id}.json`;
+        const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${targetRoom}/${entry.id}.json`;
         await fetch(endpoint, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -672,13 +700,43 @@
     async function syncFromFirebase() {
       if (!FIREBASE_DB_URL) return;
       try {
-        const endpoint = `${FIREBASE_DB_URL.replace(/\/$/, "")}/opinions/${currentRoomSlug}.json`;
+        const baseDb = FIREBASE_DB_URL.replace(/\/$/, "");
+        // Jika berada di bilik UMUM, tarik keseluruhan cabang /opinions.json dari semua kelas!
+        const endpoint = currentRoomSlug === "umum"
+          ? `${baseDb}/opinions.json`
+          : `${baseDb}/opinions/${currentRoomSlug}.json`;
+
         const res = await fetch(endpoint);
         if (!res.ok) return;
         const data = await res.json();
         if (!data || typeof data !== "object") return;
 
-        const remoteList = Object.values(data).filter(item => item && item.id && item.text);
+        let remoteList = [];
+
+        if (currentRoomSlug === "umum") {
+          Object.entries(data).forEach(([roomKey, roomItems]) => {
+            if (roomItems && typeof roomItems === "object") {
+              Object.values(roomItems).forEach(item => {
+                if (item && item.id && item.text) {
+                  remoteList.push({
+                    ...item,
+                    roomSlug: item.roomSlug || roomKey
+                  });
+                }
+              });
+            }
+          });
+        } else {
+          Object.values(data).forEach(item => {
+            if (item && item.id && item.text) {
+              remoteList.push({
+                ...item,
+                roomSlug: item.roomSlug || currentRoomSlug
+              });
+            }
+          });
+        }
+
         if (remoteList.length === 0) return;
 
         // Susun dari paling baharu ke lama
@@ -699,7 +757,8 @@
             playPopSound(660);
             triggerConfetti();
             focusOnNode(0);
-            showToast("Pandangan baharu baru sahaja masuk!", "✨");
+            const originTag = (brandNewItems[0].roomSlug || "UMUM").toUpperCase();
+            showToast(`Pandangan baharu dari ${originTag} baru masuk!`, "✨");
             const activeNewest = newestId;
             setTimeout(() => {
               if (newestId === activeNewest) newestId = null;
@@ -879,6 +938,12 @@
         const replyCount = Array.isArray(item.replies) ? item.replies.length : 0;
         const isLiked = likedIds.includes(item.id);
         const isHearted = heartedIds.includes(item.id);
+        const itemClassCode = (item.roomSlug || currentRoomSlug).toUpperCase();
+
+        // Tunjukkan lencana kelas apabila berada di paparan gabungan UMUM
+        const classBadgeHtml = currentRoomSlug === "umum"
+          ? `<span class="inline-flex items-center text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-900/10 text-slate-700">📍 ${escapeHtml(itemClassCode)}</span>`
+          : "";
 
         const card = document.createElement("article");
         card.className = `opinion-node ${theme.bg} backdrop-blur-md rounded-3xl p-5 shadow-xl border-2 ${theme.border} ${isDimmed ? "dimmed" : ""} ${isNew ? "is-new" : ""}`;
@@ -893,12 +958,15 @@
         };
 
         card.innerHTML = `
-          <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-full ${theme.badge}">
-              <span>${theme.icon}</span>
-              <span>${escapeHtml(item.lens)}</span>
-            </span>
-            <span class="text-[10px] font-semibold text-slate-400">${escapeHtml(item.timestamp || "Baru tadi")}</span>
+          <div class="flex items-center justify-between gap-1.5 mb-3">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-full ${theme.badge}">
+                <span>${theme.icon}</span>
+                <span>${escapeHtml(item.lens)}</span>
+              </span>
+              ${classBadgeHtml}
+            </div>
+            <span class="text-[10px] font-semibold text-slate-400 shrink-0">${escapeHtml(item.timestamp || "Baru tadi")}</span>
           </div>
 
           <p class="text-slate-800 text-sm font-medium leading-relaxed mb-4">
@@ -979,6 +1047,7 @@
 
         const newEntry = {
           id: `node-${Date.now()}-${uniqueSuffix}`,
+          roomSlug: currentRoomSlug,
           lens,
           persona: randomPersona,
           text,
@@ -990,7 +1059,6 @@
           replies: []
         };
 
-        // Buang kad contoh apabila jawapan sebenar pertama masuk
         entries = entries.filter(item => !item.isSample);
         newestId = newEntry.id;
         entries.unshift(newEntry);
@@ -1081,6 +1149,7 @@
 
       const theme = LENS_THEMES[item.lens] || LENS_THEMES["Hikmah & Adab"];
       const replies = Array.isArray(item.replies) ? item.replies : [];
+      const classLabel = (item.roomSlug || currentRoomSlug).toUpperCase();
 
       let repliesHtml = "";
       if (replies.length === 0) {
@@ -1103,8 +1172,8 @@
 
       document.getElementById("threadBody").innerHTML = `
         <div class="${theme.bg} rounded-2xl p-4 border-2 ${theme.border}">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-extrabold text-slate-800">${escapeHtml(item.persona)}</span>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-xs font-extrabold text-slate-800">${escapeHtml(item.persona)} <span class="text-[10px] font-bold text-slate-500">(${escapeHtml(classLabel)})</span></span>
             <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${theme.badge}">${theme.icon} ${escapeHtml(item.lens)}</span>
           </div>
           <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">“${escapeHtml(item.text)}”</p>
@@ -1173,12 +1242,12 @@
         { code: "CS2401B", slug: "cs2401b", badge: "bg-sky-50 text-sky-700" },
         { code: "CS2401A", slug: "cs2401a", badge: "bg-amber-50 text-amber-700" },
         { code: "IC2101A", slug: "ic2101a", badge: "bg-rose-50 text-rose-700" },
-        { code: "UMUM", slug: "umum", badge: "bg-slate-100 text-slate-700" }
+        { code: "UMUM (Himpunan Semua Kelas)", slug: "umum", badge: "bg-slate-900 text-white" }
       ];
 
       const container = document.getElementById("classLinksContainer");
       container.innerHTML = classes.map(cls => {
-        const fullLink = `${base}?bilik=${cls.slug}`;
+        const fullLink = cls.slug === "umum" ? base : `${base}?bilik=${cls.slug}`;
         return `
           <div class="flex items-center justify-between gap-2 p-2.5 rounded-2xl border border-slate-200 bg-slate-50/70">
             <div class="min-w-0 flex-1">
@@ -1192,7 +1261,7 @@
         `;
       }).join("");
 
-      const activeLink = `${base}?bilik=${currentRoomSlug}`;
+      const activeLink = currentRoomSlug === "umum" ? base : `${base}?bilik=${currentRoomSlug}`;
       document.getElementById("inviteMessageBox").value =
 `Assalamualaikum & salam sejahtera semua ✨
 
@@ -1227,14 +1296,15 @@ Terima kasih atas perkongsian idea! 🌿`;
 
     function exportToTxt() {
       const lines = [
-        `LAPORAN PAPAN PANDANGAN ALAM — KELAS: ${currentRoomName}`,
+        `LAPORAN PAPAN PANDANGAN ALAM — PAPARAN: ${currentRoomName}`,
         `Tarikh Muat Turun: ${new Date().toLocaleString("ms-MY")}`,
         `Soalan: Ramai yang pintar, tetapi pada pandangan alam anda, apa yang menjadikan seseorang itu bijaksana yang sebenar?`,
         `====================================================================\n`
       ];
 
       entries.forEach((item, index) => {
-        lines.push(`${index + 1}. [${item.lens}] ${item.persona} (${item.timestamp})`);
+        const cls = (item.roomSlug || currentRoomSlug).toUpperCase();
+        lines.push(`${index + 1}. [Kelas: ${cls}] [${item.lens}] ${item.persona} (${item.timestamp})`);
         lines.push(`   "${item.text}"`);
         lines.push(`   Reaksi: 💡 ${item.likes || 0} | ❤️ ${item.hearts || 0}`);
         if (Array.isArray(item.replies) && item.replies.length > 0) {
@@ -1249,10 +1319,10 @@ Terima kasih atas perkongsian idea! 🌿`;
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Pandangan_Alam_${currentRoomName}.txt`;
+      a.download = `Pandangan_Alam_${currentRoomSlug.toUpperCase()}.txt`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`Fail teks Kelas ${currentRoomName} dimuat turun!`, "📥");
+      showToast(`Fail teks ${currentRoomName} dimuat turun!`, "📥");
     }
 
     // =========================================================================
